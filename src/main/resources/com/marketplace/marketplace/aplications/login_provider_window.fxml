@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.aplications.LoginProviderAplication">
+    <children>
+        <HBox alignment="CENTER_RIGHT" prefWidth="750.0">
+            <children>
+                <Button fx:id="register" mnemonicParsing="false" onAction="#RegProvider" prefHeight="30.0" prefWidth="150.0" text="Регистрация">
+                    <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+        <VBox alignment="CENTER" layoutY="37.0" prefHeight="463.0" prefWidth="750.0">
+            <children>
+                <TextField fx:id="username" alignment="CENTER" prefHeight="35.0" promptText="Логин">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </TextField>
+                <PasswordField fx:id="password" alignment="CENTER" prefHeight="35.0" promptText="Пароль">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </PasswordField>
+                <Label fx:id="message_error" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="350.0" textAlignment="CENTER">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </Label>
+                <Button fx:id="login" mnemonicParsing="false" onAction="#AuthProvider" prefHeight="50.0" prefWidth="250.0" text="Войти">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="100.0" left="150.0" right="150.0" top="100.0" />
+            </padding></VBox>
+    </children>
+</Pane>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.controllers.ControllerMarketplace">
+   <children>
+      <HBox alignment="CENTER" prefHeight="650.0" prefWidth="900.0">
+         <children>
+            <ListView fx:id="list_products" prefHeight="650.0" prefWidth="612.0">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
+               </HBox.margin>
+            </ListView>
+            <VBox>
+               <children>
+                  <VBox fx:id="product_buttons">
+                     <children>
+                        <Button fx:id="addProduct" mnemonicParsing="false" onAction="#AddProduct" prefHeight="25.0" prefWidth="250.0" text="Добавить товар">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="deleteProductButton" mnemonicParsing="false" onAction="#DeleteProductButton" prefWidth="250.0" text="Удалить товар">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <Button fx:id="purchase" mnemonicParsing="false" onAction="#Purchase" prefHeight="50.0" prefWidth="250.0" text="Купить и оплатить">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <VBox prefHeight="350.0">
+                     <children>
+                        <HBox>
+                           <children>
+                              <Label text="Товаров в корзине:">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="index_product" text="0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <ListView fx:id="basket">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin></ListView>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#AddBasket" prefHeight="35.0" prefWidth="245.0" text="добавить в корзину" wrapText="true">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#RemoveBasket" prefHeight="35.0" prefWidth="245.0" text="Убрать из корзины" wrapText="true">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <Button fx:id="sign_out" mnemonicParsing="false" onAction="#SignOut" prefHeight="35.0" prefWidth="245.0" text="Выйти из аккаунта">
+                     <VBox.margin>
+                        <Insets top="74.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</Pane>

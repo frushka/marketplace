@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.aplications.RegisterProviderAplication">
+   <children>
+      <VBox alignment="CENTER" prefHeight="500.0" prefWidth="750.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0">
+               <children>
+                  <VBox prefHeight="250.0">
+                     <children>
+                        <TextField fx:id="username" alignment="CENTER" prefHeight="30.0" prefWidth="250.0" promptText="Логин">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="name_company" alignment="CENTER" prefHeight="30.0" prefWidth="250.0" promptText="Название компании">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextField fx:id="password" alignment="CENTER" prefHeight="30.0" prefWidth="250.0" promptText="Пароль">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Label fx:id="error_message">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Button fx:id="register" mnemonicParsing="false" onAction="#RegProvider" prefHeight="30.0" prefWidth="250.0" text="Зарегистрироваться">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</Pane>
