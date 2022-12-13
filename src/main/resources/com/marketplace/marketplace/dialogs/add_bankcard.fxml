@@ -1,14 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.dialogs.AddBankCardDialog">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.dialogs.AddBankCardDialog">
    <children>
-      <VBox prefHeight="250.0" prefWidth="500.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" stroke="BLACK" strokeType="INSIDE" width="500.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8814124464988708" green="0.09527290612459183" blue="0.8947368264198303" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Pane layoutX="150.0" prefHeight="200.0" prefWidth="222.0">
+         <children>
+            <Label fx:id="err_mes" layoutX="13.0" layoutY="134.0" prefHeight="21.0" prefWidth="201.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+         </children></Pane>
+      <VBox layoutX="14.0" prefHeight="250.0" prefWidth="500.0">
          <children>
             <HBox alignment="CENTER">
                <children>

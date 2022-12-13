@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,6 +19,8 @@ public class AddBankCardDialog {
     Button cancel;
     @FXML
     public TextField number_card, pin_code, cvv, owners_name, owners_surname = new TextField();
+    @FXML
+    public Label err_mes;
 
     public static void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(AddBankCardDialog.class.getResource("add_bankcard.fxml"));
@@ -64,6 +67,7 @@ public class AddBankCardDialog {
                 cancel(cancel);
             }
         } catch (NumberFormatException numberFormatException) {
+            err_mes.setText("Некорректный ввод");
             return;
         }
     }

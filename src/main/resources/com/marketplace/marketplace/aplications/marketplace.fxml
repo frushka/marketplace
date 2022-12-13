@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.controllers.ControllerMarketplace">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.controllers.ControllerMarketplace">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="650.0" stroke="BLACK" strokeType="INSIDE" width="900.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.11999999731779099" blue="0.445578932762146" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
       <HBox alignment="CENTER" prefHeight="650.0" prefWidth="900.0">
          <children>
             <ListView fx:id="list_products" prefHeight="650.0" prefWidth="612.0">
@@ -49,18 +68,13 @@
                      <children>
                         <HBox>
                            <children>
-                              <Label text="Товаров в корзине:">
+                              <Label text="Корзина:" textFill="#6913ff">
                                  <font>
-                                    <Font size="15.0" />
+                                    <Font name="Arial Black" size="25.0" />
                                  </font>
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
-                              </Label>
-                              <Label fx:id="index_product" text="0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
                               </Label>
                            </children>
                         </HBox>

@@ -27,7 +27,7 @@ public class ControllerMarketplace {
     @FXML
     VBox product_buttons;
 
-    public Label index_product;
+   // public Label index_product;
 
 
     @FXML
@@ -48,8 +48,7 @@ public class ControllerMarketplace {
     public boolean isUser() {
         return Objects.equals(getRoleArray(), "User");
     }
-    public void listViewProducts() {
-        list_products.setItems(arrayProducts);
+    public void listViewProducts() {list_products.setItems(arrayProducts);
     }
 
     public void listViewBasket() {
@@ -75,7 +74,7 @@ public class ControllerMarketplace {
                 arrayBasket.add(i.getName());
             }
         }
-        index_product.setText(String.valueOf(arrayBasket.size()));
+       // index_product.setText(String.valueOf(arrayBasket.size()));
     }
 
     @FXML
@@ -84,7 +83,7 @@ public class ControllerMarketplace {
             for (String i : basket.getSelectionModel().getSelectedItems()) {
                 arrayBasket.remove(i);
             }
-            index_product.setText(String.valueOf(arrayBasket.size()));
+            //index_product.setText(String.valueOf(arrayBasket.size()));
         } catch (NoSuchElementException noSuchElementException) {
             return;
         }

@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.aplications.LoginUserAplication">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.aplications.LoginUserAplication">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" stroke="BLACK" strokeType="INSIDE" width="750.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.47393364928909953" startY="0.04265402843601896">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.11999999731779099" blue="0.8254350423812866" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.43421053886413574" green="0.09448099136352539" blue="0.37192678451538086" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
       <HBox alignment="CENTER_RIGHT" prefWidth="750.0">
          <children>
             <Button fx:id="register" mnemonicParsing="false" onAction="#Register" prefHeight="30.0" prefWidth="150.0" text="Регистрация">
@@ -22,6 +42,11 @@
       </HBox>
       <VBox alignment="CENTER" layoutY="37.0" prefHeight="463.0" prefWidth="750.0">
          <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="D:\marketplace\User.jpeg" />
+               </image>
+            </ImageView>
             <TextField fx:id="username" alignment="CENTER" prefHeight="35.0" promptText="Логин">
                <font>
                   <Font size="15.0" />

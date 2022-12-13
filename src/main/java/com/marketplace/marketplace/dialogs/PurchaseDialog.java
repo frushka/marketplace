@@ -25,7 +25,6 @@ import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
 public class PurchaseDialog {
     @FXML
     public Button cancel, purchase = new Button();
-
     @FXML
     public Label index_products, error_message, bankcard = new Label();
 
@@ -73,7 +72,7 @@ public class PurchaseDialog {
         }
 
         if (arrayBasket.size() == 0) {
-            error_message.setText("ДОБАВЬ ЧТО-ТО В КОРЗИНУ, ДУРАЛЕЙ");
+            error_message.setText("Корзина пуста.");
             return;
         }
 
@@ -88,17 +87,20 @@ public class PurchaseDialog {
             if (arrayProducts.get(idx).number_product >= count) {
                 int old = arrayProducts.get(idx).number_product;
                 arrayProducts.get(idx).setNumberProduct(old - count);
+                error_message.setText("Товар куплен!\nСпасибо за покупку, корзина очищена.");
+                index_products.setText("0");
+                arrayBasket.clear();
             } else {
-                error_message.setText("НЕДОСТАТОЧНО ТОВАРОВ НА СКЛАДЕ!!!!!!!");
+                error_message.setText("Товаров в корзине больше, чем товаров на складе.");
                 return;
             }
         }
 
-        List<Product> heheheh = new ArrayList<>(arrayProducts);
+        List<Product> bufList = new ArrayList<>(arrayProducts);
 
         arrayProducts.clear();
         arrayBasket.clear();
-        arrayProducts.addAll(heheheh);
+        arrayProducts.addAll(bufList);
     }
 
     private static int getIdx(String name) {

@@ -1,26 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.aplications.MainApplication">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marketplace.marketplace.aplications.MainApplication">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="500.0" stroke="BLACK" strokeType="INSIDE" width="700.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.7109004739336493">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.11999999731779099" blue="0.8824134469032288" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="700.0">
          <children>
-            <Button fx:id="authProvider" mnemonicParsing="false" onAction="#AuthProvider" prefHeight="65.0" prefWidth="300.0" text="Я поставщик">
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="D:\marketplace\marketplace.jpg" />
+               </image>
+            </ImageView>
+            <Label prefHeight="81.0" prefWidth="188.0" text="Welcome to RM!">
+               <font>
+                  <Font name="Consolas Bold" size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="authProvider" lineSpacing="10.0" mnemonicParsing="false" onAction="#AuthProvider" prefHeight="65.0" prefWidth="300.0" text="Я поставщик" textFill="#1049f5">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
                <font>
-                  <Font size="15.0" />
+                  <Font name="Dubai Regular" size="32.0" />
                </font>
             </Button>
-            <Button fx:id="authUser" mnemonicParsing="false" onAction="#AuthUser" prefHeight="65.0" prefWidth="300.0" text="Я покупатель">
+            <Button fx:id="authUser" mnemonicParsing="false" onAction="#AuthUser" prefHeight="65.0" prefWidth="300.0" text="Я покупатель" textFill="#c30909">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="32.0" />
                </font>
             </Button>
          </children>
