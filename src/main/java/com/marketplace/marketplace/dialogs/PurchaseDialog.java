@@ -1,7 +1,9 @@
 package com.marketplace.marketplace.dialogs;
 
 import com.marketplace.marketplace.aplications.MarketplaceApp;
+import com.marketplace.marketplace.controllers.ControllerMarketplace;
 import com.marketplace.marketplace.models.BankCard;
+import com.marketplace.marketplace.models.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +15,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
 
 public class PurchaseDialog {
     @FXML
@@ -36,8 +44,7 @@ public class PurchaseDialog {
 
     @FXML
     public void initialize() {
-        index_products.setText(String.valueOf(MarketplaceApp.arrayBasket.size()));
-
+        index_products.setText(String.valueOf(arrayBasket.size()));
     }
 
     public String getBankCard() {
@@ -60,11 +67,47 @@ public class PurchaseDialog {
 
     @FXML
     public void Purchase() {
-        if (arrayBankCards.size() != 0) {
-            error_message.setText("Банковская карта добавлена! Можно оплатить и купить товар");
-        } else {
+        if (arrayBankCards.size() == 0) {
             error_message.setText("Банковская карта не добавлена!");
+            return;
         }
+
+        if (arrayBasket.size() == 0) {
+            error_message.setText("ДОБАВЬ ЧТО-ТО В КОРЗИНУ, ДУРАЛЕЙ");
+            return;
+        }
+
+        Map<String, Integer> map = new HashMap<>();
+        for (String product : arrayBasket) {
+            map.merge(product, 1, Integer::sum);
+        }
+
+        for (String name : map.keySet()) {
+            int idx = getIdx(name);
+            int count = map.get(name);
+            if (arrayProducts.get(idx).number_product >= count) {
+                int old = arrayProducts.get(idx).number_product;
+                arrayProducts.get(idx).setNumberProduct(old - count);
+            } else {
+                error_message.setText("НЕДОСТАТОЧНО ТОВАРОВ НА СКЛАДЕ!!!!!!!");
+                return;
+            }
+        }
+
+        List<Product> heheheh = new ArrayList<>(arrayProducts);
+
+        arrayProducts.clear();
+        arrayBasket.clear();
+        arrayProducts.addAll(heheheh);
+    }
+
+    private static int getIdx(String name) {
+        for (int i = 0; i < arrayProducts.size(); i++) {
+            if (arrayProducts.get(i).name.equals(name)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @FXML

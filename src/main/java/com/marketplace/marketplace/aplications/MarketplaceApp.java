@@ -2,6 +2,7 @@ package com.marketplace.marketplace.aplications;
 
 import com.marketplace.marketplace.controllers.ControllerMarketplace;
 import com.marketplace.marketplace.models.Product;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +27,7 @@ public class MarketplaceApp {
     );
 
     FXMLLoader fxmlLoader = new FXMLLoader(MarketplaceApp.class.getResource("marketplace.fxml"));
-    //ControllerMarketplace controllerMarketplace = fxmlLoader.getController();
+    /*public static ControllerMarketplace controllerMarketplace = fxmlLoader.getController();*/
 
     public void start(Stage stage) throws IOException {
         
