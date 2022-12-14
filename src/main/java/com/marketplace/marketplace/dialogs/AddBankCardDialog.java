@@ -15,14 +15,18 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class AddBankCardDialog {
+
+    /*Добавление карты*/
     @FXML
-    Button cancel;
+    Button cancel;// Кнопка отмены
     @FXML
-    public TextField number_card, pin_code, cvv, owners_name, owners_surname = new TextField();
+    public TextField number_card, pin_code, cvv, owners_name, owners_surname = new TextField(); //поля карты
     @FXML
-    public Label err_mes;
+    public Label err_mes;//Вывод ошибки, если по полям что-то не так
 
     public static void start(Stage stage) throws IOException {
+        /*Загрузка сцены добавления карты и
+        показ этого окна*/
         FXMLLoader fxmlLoader = new FXMLLoader(AddBankCardDialog.class.getResource("add_bankcard.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 500, 200));
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -33,7 +37,7 @@ public class AddBankCardDialog {
     }
 
     public boolean isNotEmptyCardBank() {
-        /* Проверяет на пустату поля ввода */
+        /* Проверяет на пустоту поля ввода */
         if (number_card.getText().isEmpty() || pin_code.getText().isEmpty() || cvv.getText().isEmpty() ||
                 owners_name.getText().isEmpty() || owners_surname.getText().isEmpty()) {
             return false;
@@ -55,12 +59,13 @@ public class AddBankCardDialog {
 
     @FXML
     public void AddBankCard() {
+        /* Добавление карты в список*/
         try {
             if (isNotEmptyCardBank()) {
                 PurchaseDialog.arrayBankCards.add(new BankCard(
                         Integer.parseInt(number_card.getText()),
                         Integer.parseInt(pin_code.getText()),
-                        cvv.getText(),
+                        Integer.parseInt(cvv.getText()),
                         owners_name.getText(),
                         owners_surname.getText()
                 ));

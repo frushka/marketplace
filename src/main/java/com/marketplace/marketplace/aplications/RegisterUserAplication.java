@@ -19,29 +19,30 @@ import java.util.ArrayList;
 public class RegisterUserAplication {
 
     @FXML
-    public PasswordField password = new PasswordField();
+    public PasswordField password = new PasswordField(); // поля ввода пароля
 
     @FXML
-    public Button reg = new Button();
+    public Button reg = new Button();// кнопка регистраци
 
     @FXML
-    public TextField login = new TextField();
+    public TextField login = new TextField(); // поле ввода логина
     @FXML
-    public TextField name = new TextField();
+    public TextField name = new TextField();// поле ввода имени
     @FXML
-    public TextField surname = new TextField();
+    public TextField surname = new TextField();// поле ввода фамилии
     @FXML
-    public TextField adress = new TextField();
+    public TextField adress = new TextField(); // поле ввода адреса
     @FXML
-    public TextField patronymic = new TextField();
+    public TextField patronymic = new TextField(); //поле ввода отчества
 
     @FXML
-    public Label error_message = new Label();
+    public Label error_message = new Label();// штука выводит ошибку, если чел не заполнил поля
 
 
-    public static ArrayList<User> arrayList = new ArrayList<>();
+    public static ArrayList<User> arrayList = new ArrayList<>();//список всех покупателей
 
     public static void start(Stage stage) throws IOException {
+        /*Метод загрузки и показа сцены*/
         FXMLLoader fxmlLoader = new FXMLLoader(RegisterUserAplication.class.getResource("register_window.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 750, 500));
         stage.setTitle("Регистрация покупателя");
@@ -51,7 +52,8 @@ public class RegisterUserAplication {
     }
 
     public boolean isNotNullTextField() {
-        /* Проверяет на пустату поля ввода */
+        /* Проверяет на пустоту
+         поля ввода */
         if (login.getText().isEmpty() || surname.getText().isEmpty() ||
                 password.getText().isEmpty() || patronymic.getText().isEmpty() ||
                 adress.getText().isEmpty() || name.getText().isEmpty()) {
@@ -86,10 +88,12 @@ public class RegisterUserAplication {
     }
 
     public void addUser(User user) {
+        /*Добавление покупателя в список*/
         arrayList.add(user);
     }
 
     public static String getLoginArray() {
+        // получение логина покупателя
         for (User i: arrayList) {
             return i.getLogin();
         }
@@ -97,6 +101,7 @@ public class RegisterUserAplication {
     }
 
     public static String getPasswordArray() {
+        // получение пароля покупателя.
         for (User i: arrayList) {
             return i.getPassword();
         }

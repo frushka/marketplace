@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import java.util.Objects;
 
 public class Provider {
+    //класс продавцов
     public String login, password,company_name, name_product, number_product, price_product;
 
     public boolean purchase = true;

@@ -3,6 +3,7 @@ package com.marketplace.marketplace.models;
 import java.util.Objects;
 
 public class User {
+    //Наш любимый покупатель.
     public String login, name, surname, patronymic, password, address;
 
     public boolean add_product = true;

@@ -23,14 +23,20 @@ import java.util.Map;
 import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
 
 public class PurchaseDialog {
+
+    // кнопки отмены и оплаты.
     @FXML
     public Button cancel, purchase = new Button();
+
+    //Лейблы для вывода инфы
     @FXML
     public Label index_products, error_message, bankcard = new Label();
 
+    // список отображения карт
     public static ObservableList<BankCard> arrayBankCards = FXCollections.observableArrayList();
 
     public static void start(Stage stage) throws IOException {
+        //Загрузка и показ цены
         FXMLLoader fxmlLoader = new FXMLLoader(PurchaseDialog.class.getResource("purchase.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 500, 350));
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -43,10 +49,12 @@ public class PurchaseDialog {
 
     @FXML
     public void initialize() {
+        // показывает количество товаров в магазине
         index_products.setText(String.valueOf(arrayBasket.size()));
     }
 
     public String getBankCard() {
+        // Возвращает конкретную карту
         for (String s: SelectionBankCardDialog.bankcards) {
             return s;
         }
@@ -55,6 +63,7 @@ public class PurchaseDialog {
     }
 
     public void cancel(Button button) {
+        //Кнопка выхода
         Stage stage = (Stage)button.getScene().getWindow();
         stage.hide();
     }
@@ -66,6 +75,7 @@ public class PurchaseDialog {
 
     @FXML
     public void Purchase() {
+        //Метод оплаты заказа, если корзина не пустая
         if (arrayBankCards.size() == 0) {
             error_message.setText("Банковская карта не добавлена!");
             return;
@@ -114,11 +124,13 @@ public class PurchaseDialog {
 
     @FXML
     public void AddBankCard() throws IOException {
+        //Открывает сцену добавление
         AddBankCardDialog.start(new Stage());
     }
 
     @FXML
     public void SelectedBankCard() throws IOException {
+        //Запуск сцены выбора карты
         SelectionBankCardDialog.start(new Stage());
     }
 }

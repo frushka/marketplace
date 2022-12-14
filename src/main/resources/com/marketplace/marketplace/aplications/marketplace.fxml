@@ -68,7 +68,7 @@
                      <children>
                         <HBox>
                            <children>
-                              <Label text="Корзина:" textFill="#6913ff">
+                              <Label fx:id="nameBasket" textFill="#6913ff">
                                  <font>
                                     <Font name="Arial Black" size="25.0" />
                                  </font>
@@ -82,9 +82,9 @@
                            <VBox.margin>
                               <Insets bottom="5.0" />
                            </VBox.margin></ListView>
-                        <VBox alignment="CENTER">
+                        <VBox fx:id="buy_buttons" alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#AddBasket" prefHeight="35.0" prefWidth="245.0" text="добавить в корзину" wrapText="true">
+                              <Button mnemonicParsing="false" onAction="#AddBasket" prefHeight="35.0" prefWidth="245.0" text="Добавить в корзину" wrapText="true">
                                  <font>
                                     <Font size="15.0" />
                                  </font>

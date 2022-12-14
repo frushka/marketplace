@@ -14,9 +14,13 @@ import java.util.Objects;
 
 public class MarketplaceApp {
 
+    //Эта штука нужна, чтобы в реально времени отображать и менять состояние корзины
     public static ObservableList<String> arrayBasket = FXCollections.observableArrayList();
 
+    //Список человек, которые есть на маркете
     public static ArrayList<String> role = new ArrayList<>();
+
+    // Список товаров, которые есть на маркетплейсе
     public static ObservableList<Product> arrayProducts = FXCollections.observableArrayList(
             new Product("Предмет №1", 1, 1),
             new Product("Предмет №2", 2, 2),
@@ -25,23 +29,30 @@ public class MarketplaceApp {
             new Product("Предмет №5", 5, 5)
     );
 
+    //Загрузка сцены из FXML
     FXMLLoader fxmlLoader = new FXMLLoader(MarketplaceApp.class.getResource("marketplace.fxml"));
     //ControllerMarketplace controllerMarketplace = fxmlLoader.getController();
 
     public void start(Stage stage) throws IOException {
-        
+
+        /*Штука, которая показывает сцену*/
+
         stage.setScene(new Scene(fxmlLoader.load(), 900, 650));
         stage.setResizable(false);
         stage.setTitle("Маркетплейс" + getRole());
+
+
         /*if (arrayBasket.size() == 0) {
             controllerMarketplace.purchase.setDisable(true);
         }*/
 
 
-        stage.show();
+        stage.show(); //показ сцены
     }
 
     public String getRole() {
+        /* дает название окну,
+        в котором вызывается сцена.*/
         if(Objects.equals(getRoleArray(), "Provider")) {
             return " сцена поставщика";
         }
@@ -52,11 +63,13 @@ public class MarketplaceApp {
     }
 
     public static void cancel(Button button) {
+        /*Метод выхода из маркета */
         Stage stage = (Stage) button.getScene().getWindow();
         stage.hide();
     }
 
     public static String getRoleArray() {
+        /* Метод, который пробегает по всем ролям*/
         for (String string: role) {
             return string;
         }

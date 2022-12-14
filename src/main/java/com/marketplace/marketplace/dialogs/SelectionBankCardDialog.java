@@ -13,17 +13,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SelectionBankCardDialog {
-    PurchaseDialog purchaseDialog = new PurchaseDialog();
+    PurchaseDialog purchaseDialog = new PurchaseDialog(); // создает класс оплаты заказа
 
     @FXML
-    public ListView<BankCard> listview_bankcards = new ListView<>();
+    public ListView<BankCard> listview_bankcards = new ListView<>();//Лист отображения банковский карт
 
-    public static ArrayList<String> bankcards = new ArrayList<>();
+    public static ArrayList<String> bankcards = new ArrayList<>(); //Список карт
 
     @FXML
-    public Button cancel, selected = new Button();
+    public Button cancel, selected = new Button(); //Кнопки ответы и выбора
 
     public static void start(Stage stage) throws IOException {
+        //Загрузка сцены, привязанной к этому классу
         FXMLLoader fxmlLoader = new FXMLLoader(AddBankCardDialog.class.getResource("selection_bankcard.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 600, 400));
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -35,25 +36,30 @@ public class SelectionBankCardDialog {
 
     @FXML
     public void initialize() {
+        // Присваивание списка карт списку отображения для вывода на маркетплейсе
         listview_bankcards.setItems(PurchaseDialog.arrayBankCards);
     }
 
     public void cancel(Button button) {
+        // Закрытие этой сцены
         Stage stage = (Stage)button.getScene().getWindow();
         stage.hide();
     }
 
     @FXML
     public void Cancel() {
+        //Вызов метода закртия сцены
         cancel(cancel);
     }
 
     @FXML
     public void Selected() {
+        //Вызов метода добавления карты
         getBankCard();
     }
 
     public void getBankCard() {
+        // Возврат карты
         for (BankCard bk: listview_bankcards.getSelectionModel().getSelectedItems()) {
             purchaseDialog.bankcard.setText(bk.toString());
             cancel(cancel);

@@ -17,17 +17,19 @@ import java.util.ArrayList;
 
 public class RegisterProviderAplication {
     @FXML
-    public TextField username, name_company, password;
+    public TextField username, name_company, password; // Текстовые поля ввода данных
 
     @FXML
-    public Label error_message;
+    public Label error_message;// Выводит сообщение об ошибке, если поля пустые
 
     @FXML
-    public Button register;
+    public Button register; // кнопка зарегистрироваться
 
-    static ArrayList<Provider> providers = new ArrayList<>();
+    static ArrayList<Provider> providers = new ArrayList<>(); // список всех продавцов
 
     public static void start(Stage stage) throws IOException {
+
+        /*Загрузка и показ сцены регистрации продавца*/
         FXMLLoader fxmlLoader = new FXMLLoader(RegisterProviderAplication.class.getResource("register_provider_window.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 750, 500));
         stage.setTitle(" Окно регистрации продавца");
@@ -43,7 +45,7 @@ public class RegisterProviderAplication {
     }
 
     public boolean isNotEmpty() {
-        /* Проверяет на пустату поля ввода */
+        /* Проверяет пустоту ввода в поля */
         if(username.getText().isEmpty() || password.getText().isEmpty() || name_company.getText().isEmpty()) {
             return false;
         } else {
@@ -52,10 +54,12 @@ public class RegisterProviderAplication {
     }
 
     public void addProvider(Provider provider) {
+        /* Метод добавления продавца в список*/
         providers.add(provider);
     }
 
     public static String getLogin() {
+        /*Получение логина продавцов*/
         for (Provider p: providers) {
             return p.getLogin();
         }
@@ -64,6 +68,7 @@ public class RegisterProviderAplication {
     }
 
     public static String getPassword() {
+        /*Получение пароля продавцов*/
         for (Provider p: providers) {
             return p.getPassword();
         }
@@ -93,6 +98,7 @@ public class RegisterProviderAplication {
     }
 
     public static boolean getIsPurchase() {
+        /* отключение кнопки покупки*/
         for (Provider i: providers) {
             return i.isPurchase();
         }

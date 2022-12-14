@@ -1,6 +1,7 @@
 package com.marketplace.marketplace.models;
 
 public class Session {
+    // сам маркетплейс
 
     public static String setRole(Object role) {
 

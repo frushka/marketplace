@@ -17,20 +17,24 @@ import static com.marketplace.marketplace.aplications.MarketplaceApp.role;
 
 public class LoginProviderAplication {
     @FXML
-    public TextField username, password;
+    public TextField username, password; // Текстовые поля для ввода логина и пароля
+
 
     @FXML
-    public Button register, login = new Button();
+    public Button register, login = new Button();// кнопки авторизации и регистрации
 
     @FXML
-    public Label message_error;
+    public Label message_error;// Штука для вывода ошибки, если пользователь не найден или данные некорректны
 
-    MarketplaceApp marketplaceApp = new MarketplaceApp();
+
+    MarketplaceApp marketplaceApp = new MarketplaceApp();//создание Маркетплейса для пользователя
 
     public LoginProviderAplication() throws IOException {
+        /* Конструктор класса авторизации микрочелика под статусом покупатель*/
     }
 
     public static void start(Stage stage) throws IOException {
+        /* Загрузка FXML авторизации и вставка её на сцену */
         FXMLLoader fxmlLoader = new FXMLLoader(RegisterProviderAplication.class.getResource("login_provider_window.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 750, 500));
         stage.setTitle("Вход в учётную запись продавца");
@@ -39,6 +43,8 @@ public class LoginProviderAplication {
     }
 
     public boolean isValid() {
+        /* Проверка соответствия полей. Чел зарегался, а потом авторизируется и тут проверка.
+         * Да и просто проверка наличия в списке*/
         return Objects.equals(username.getText(), RegisterProviderAplication.getLogin())
                 && Objects.equals(password.getText(), RegisterProviderAplication.getPassword());
     }
@@ -51,6 +57,7 @@ public class LoginProviderAplication {
 
     @FXML
     public void AuthProvider() throws IOException {
+        /*Вызывает валидацию, чтобы чекнуть норм чел или не норм*/
         if (isValid()) {
 
             if (MarketplaceApp.role.size() == 0) {
@@ -68,6 +75,8 @@ public class LoginProviderAplication {
 
     @FXML
     public void RegProvider() throws IOException {
+        /*Вызывает штуку при нажатии кнопки регистрации,
+          тут же запускается сцена регистрации*/
         RegisterProviderAplication.cancel(register);
         RegisterProviderAplication.start(new Stage());
     }

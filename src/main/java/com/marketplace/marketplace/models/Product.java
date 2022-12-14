@@ -1,6 +1,7 @@
 package com.marketplace.marketplace.models;
 
 public class Product {
+    // класс продуктов
     public String name;
     public int number_product;
     public double price_product;

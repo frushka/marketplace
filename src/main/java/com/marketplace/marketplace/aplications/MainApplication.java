@@ -14,30 +14,34 @@ import java.util.ArrayList;
 
 public class MainApplication extends Application {
     @FXML
-    public Button authProvider, authUser = new Button();
+    public Button authProvider, authUser = new Button();//создание кнопок Я покупатель и Я поставщик
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("auth.fxml"));
-        stage.setScene(new Scene(fxmlLoader.load(), 700, 500));
-        stage.setTitle("Выберете свою роль");
-        stage.setResizable(false);
-        stage.show();
+        /*Открытие stage и создание
+         сцены выбора роли*/
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("auth.fxml")); //Создание объекта типа FXML
+        stage.setScene(new Scene(fxmlLoader.load(), 700, 500));//загрузка FXML на сцену
+        stage.setTitle("Выберете свою роль");//название сцены
+        stage.setResizable(false);//Нельзя менять размер
+        stage.show(); // показ сцены
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(); // запуск всего проекта
     }
 
     @FXML
     public void AuthUser() throws IOException {
-        LoginUserAplication.cancel(authUser);
-        LoginUserAplication.start(new Stage());
+        /*Действие, которое вызывается после нажатия кнопки Я покупатель*/
+        LoginUserAplication.cancel(authUser); // вызов метода, который после нажатия открывает сцену авторизации покупателя
+        LoginUserAplication.start(new Stage());// вызов метода, который загружает FXML сцену авторизации покупателя
     }
 
     @FXML
     public void AuthProvider() throws IOException {
-        LoginProviderAplication.cancel(authProvider);
-        LoginProviderAplication.start(new Stage());
+        /*Действие, которое вызывается после нажатия кнопки Я поставщик*/
+        LoginProviderAplication.cancel(authProvider); // вызов метода, который после нажатия открывает сцену авторизации продавца
+        LoginProviderAplication.start(new Stage()); // вызов метода, который загружает FXML сцену авторизации продавца
     }
 }

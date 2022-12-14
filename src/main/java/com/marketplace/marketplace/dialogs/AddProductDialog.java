@@ -15,14 +15,15 @@ import java.io.IOException;
 
 public class AddProductDialog {
     @FXML
-    public Label message_error;
+    public Label message_error; //Вывод ошибки, если поля пустые
 
     @FXML
-    public TextField name_product, number_product, price_product;
+    public TextField name_product, number_product, price_product;// Поля карты
 
     @FXML
-    public Button cancel, addProduct;
+    public Button cancel, addProduct; //Кнопки добавить и отмена
     public static void start(Stage stage) throws IOException {
+        // Загрузка добавление сцены загрузки карты.
         FXMLLoader fxmlLoader = new FXMLLoader(AddProductDialog.class.getResource("add_product.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 650, 450));
         stage.initStyle(StageStyle.UTILITY);
@@ -38,6 +39,7 @@ public class AddProductDialog {
 
     @FXML
     public void AddProduct() {
+        // Загружает продукты на маркетплейс
         if (isNotEmpty()) {
             message_error.setText("Добавление удалось!");
             try {
@@ -56,7 +58,7 @@ public class AddProductDialog {
 
                 cancel(addProduct);
             } catch (NumberFormatException numberFormatException) {
-                message_error.setText("Вы ввели неверные данные ввода!");
+                message_error.setText("Вы ввели неверные данные!");
             }
 
         } else {
@@ -65,11 +67,13 @@ public class AddProductDialog {
     }
 
     public void cancel(Button button) {
+        // кнопка выхода с этой сцены
         Stage stage = (Stage)button.getScene().getWindow();
         stage.hide();
     }
 
     public boolean isNotEmpty() {
+        // Проверка пустого ввода пользователя
         if (name_product.getText().isEmpty() || number_product.getText().isEmpty() || price_product.getText().isEmpty()) {
             return false;
         } else {
