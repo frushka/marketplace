@@ -3,6 +3,7 @@
 package com.marketplace.marketplace.dialogs;
 
 import com.marketplace.marketplace.models.BankCard;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,6 +14,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
+
+import static com.marketplace.marketplace.aplications.LoginUserAplication.currentUsername;
 
 public class AddBankCardDialog {
 
@@ -62,13 +65,16 @@ public class AddBankCardDialog {
         /* Добавление карты в список*/
         try {
             if (isNotEmptyCardBank()) {
-                PurchaseDialog.arrayBankCards.add(new BankCard(
+                BankCard card = new BankCard(
                         Integer.parseInt(number_card.getText()),
                         Integer.parseInt(pin_code.getText()),
                         Integer.parseInt(cvv.getText()),
                         owners_name.getText(),
-                        owners_surname.getText()
-                ));
+                        owners_surname.getText());
+                if (!PurchaseDialog.arrayBankCards.containsKey(currentUsername)) {
+                    PurchaseDialog.arrayBankCards.put(currentUsername, FXCollections.observableArrayList());
+                }
+                PurchaseDialog.arrayBankCards.get(currentUsername).add(card);
                 cancel(cancel);
             }
         } catch (NumberFormatException numberFormatException) {

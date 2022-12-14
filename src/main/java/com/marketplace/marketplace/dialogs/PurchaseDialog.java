@@ -33,7 +33,7 @@ public class PurchaseDialog {
     public Label index_products, error_message, bankcard = new Label();
 
     // список отображения карт
-    public static ObservableList<BankCard> arrayBankCards = FXCollections.observableArrayList();
+    public static Map<String, ObservableList<BankCard>> arrayBankCards = new HashMap<>();
 
     public static void start(Stage stage) throws IOException {
         //Загрузка и показ цены

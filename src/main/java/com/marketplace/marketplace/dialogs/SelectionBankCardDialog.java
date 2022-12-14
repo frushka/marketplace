@@ -1,6 +1,8 @@
 package com.marketplace.marketplace.dialogs;
 
 import com.marketplace.marketplace.models.BankCard;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +13,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.marketplace.marketplace.aplications.LoginUserAplication.currentUsername;
 
 public class SelectionBankCardDialog {
     PurchaseDialog purchaseDialog = new PurchaseDialog(); // создает класс оплаты заказа
@@ -37,7 +41,9 @@ public class SelectionBankCardDialog {
     @FXML
     public void initialize() {
         // Присваивание списка карт списку отображения для вывода на маркетплейсе
-        listview_bankcards.setItems(PurchaseDialog.arrayBankCards);
+        ObservableList<BankCard> list = PurchaseDialog.arrayBankCards.getOrDefault(currentUsername,
+                FXCollections.observableArrayList());
+        listview_bankcards.setItems(list);
     }
 
     public void cancel(Button button) {

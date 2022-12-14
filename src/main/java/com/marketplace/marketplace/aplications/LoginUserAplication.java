@@ -16,6 +16,9 @@ import java.util.Objects;
 import static com.marketplace.marketplace.aplications.MarketplaceApp.role;
 
 public class LoginUserAplication {
+
+    public static String currentUsername;
+
     MarketplaceApp marketplaceApp = new MarketplaceApp(); //создание Маркетплейса для пользователя
 
     @FXML
@@ -49,8 +52,7 @@ public class LoginUserAplication {
     public boolean isValid() {
         /* Проверка соответствия полей. Чел зарегался, а потом авторизируется и тут проверка.
         * Да и просто проверка наличия в списке*/
-        return Objects.equals(username.getText(), RegisterUserAplication.getLoginArray()) &&
-                Objects.equals(password.getText(), RegisterUserAplication.getPasswordArray());
+        return RegisterUserAplication.validate(username.getText(), password.getText());
     }
     //Получение экземпляра класса
     private static final System.Logger log = System.getLogger(LoginUserAplication.class.getName());
@@ -68,6 +70,7 @@ public class LoginUserAplication {
                 MarketplaceApp.role.add(0, Session.setRole(User.class));
             }
 
+            currentUsername = username.getText();
             cancel(login);
             marketplaceApp.start(new Stage());
         } else {

@@ -92,20 +92,15 @@ public class RegisterUserAplication {
         arrayList.add(user);
     }
 
-    public static String getLoginArray() {
+    public static boolean validate(String login, String password) {
         // получение логина покупателя
         for (User i: arrayList) {
-            return i.getLogin();
+            if (i.getLogin().equals(login)
+             && i.getPassword().equals(password)) {
+                return true;
+            }
         }
-        return null;
-    }
-
-    public static String getPasswordArray() {
-        // получение пароля покупателя.
-        for (User i: arrayList) {
-            return i.getPassword();
-        }
-        return null;
+        return false;
     }
 
     public static boolean getIsAddProduct() {
