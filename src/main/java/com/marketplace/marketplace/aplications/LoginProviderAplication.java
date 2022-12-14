@@ -16,9 +16,11 @@ import java.util.Objects;
 import static com.marketplace.marketplace.aplications.MarketplaceApp.role;
 
 public class LoginProviderAplication {
+
+    public static String currentProvider;
+
     @FXML
     public TextField username, password; // Текстовые поля для ввода логина и пароля
-
 
     @FXML
     public Button register, login = new Button();// кнопки авторизации и регистрации
@@ -45,8 +47,7 @@ public class LoginProviderAplication {
     public boolean isValid() {
         /* Проверка соответствия полей. Чел зарегался, а потом авторизируется и тут проверка.
          * Да и просто проверка наличия в списке*/
-        return Objects.equals(username.getText(), RegisterProviderAplication.getLogin())
-                && Objects.equals(password.getText(), RegisterProviderAplication.getPassword());
+        return RegisterProviderAplication.validateProvider(username.getText(), password.getText());
     }
 
     public static void cancel(Button button) {
@@ -67,6 +68,8 @@ public class LoginProviderAplication {
                 MarketplaceApp.role.add(0, Session.setRole(Provider.class));
             }
             cancel(login);
+            currentProvider = username.getText();
+            LoginUserAplication.isUser = false;
             marketplaceApp.start(new Stage());
         } else {
             message_error.setText("Учётная запись не найдена!");

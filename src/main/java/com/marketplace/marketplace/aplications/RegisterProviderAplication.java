@@ -58,26 +58,24 @@ public class RegisterProviderAplication {
         providers.add(provider);
     }
 
-    public static String getLogin() {
-        /*Получение логина продавцов*/
-        for (Provider p: providers) {
-            return p.getLogin();
+    public static boolean validateProvider(String login, String password) {
+        // получение логина покупателя
+        for (Provider i: providers) {
+            if (i.getLogin().equals(login)
+                    && i.getPassword().equals(password)) {
+                return true;
+            }
         }
-
-        return null;
-    }
-
-    public static String getPassword() {
-        /*Получение пароля продавцов*/
-        for (Provider p: providers) {
-            return p.getPassword();
-        }
-
-        return null;
+        return false;
     }
 
     @FXML
     public void RegProvider() throws IOException {
+        if (validateProvider(username.getText(), password.getText())) {
+            error_message.setText("ЗАЙДИ ПРОСТО В АККАУНТ, ШИЗОИД ДОНБАССОВСКИЙ");
+            return;
+        }
+
         /* Метод сначала проверяет не равны ли поля null, потом добавляет продавца в массив */
         if (isNotEmpty()) {
             error_message.setText("Вы заполнили все поля ввода!");

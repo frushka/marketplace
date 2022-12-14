@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class MarketplaceApp {
@@ -21,17 +23,10 @@ public class MarketplaceApp {
     public static ArrayList<String> role = new ArrayList<>();
 
     // Список товаров, которые есть на маркетплейсе
-    public static ObservableList<Product> arrayProducts = FXCollections.observableArrayList(
-            new Product("Предмет №1", 1, 1),
-            new Product("Предмет №2", 2, 2),
-            new Product("Предмет №3", 3, 3),
-            new Product("Предмет №4", 4, 4),
-            new Product("Предмет №5", 5, 5)
-    );
+    public static Map<String, ObservableList<Product>> arrayProducts = new HashMap<>();
 
     //Загрузка сцены из FXML
     FXMLLoader fxmlLoader = new FXMLLoader(MarketplaceApp.class.getResource("marketplace.fxml"));
-    //ControllerMarketplace controllerMarketplace = fxmlLoader.getController();
 
     public void start(Stage stage) throws IOException {
 

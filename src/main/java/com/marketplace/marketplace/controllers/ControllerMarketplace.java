@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import static com.marketplace.marketplace.aplications.LoginProviderAplication.currentProvider;
+import static com.marketplace.marketplace.aplications.LoginUserAplication.currentUsername;
+import static com.marketplace.marketplace.aplications.LoginUserAplication.isUser;
 import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
 
 public class ControllerMarketplace {
@@ -58,7 +61,23 @@ public class ControllerMarketplace {
     }
     public void listViewProducts() {
         //передача в список на фронт списка продуктов маркетплейса
-        list_products.setItems(arrayProducts);
+        String current = isUser ? currentUsername : currentProvider;
+
+        if (!arrayProducts.containsKey(current)) {
+            arrayProducts.put(current, FXCollections.observableArrayList());
+        }
+
+        if (current.equals(currentUsername)) {
+            ObservableList<Product> all = FXCollections.observableArrayList();
+            for (ObservableList<Product> value : arrayProducts.values()) {
+                all.addAll(value);
+            }
+
+            list_products.setItems(all);
+            return;
+        }
+
+        list_products.setItems(arrayProducts.get(current));
     }
 
     public void listViewBasket() {
@@ -73,7 +92,7 @@ public class ControllerMarketplace {
 
     public static void addProduct(Product product) {
         //Добавление элементов на маркетплейс в список
-        arrayProducts.add(product);
+        arrayProducts.get(currentProvider).add(product);
     }
     @FXML
     public void AddProduct() throws IOException {

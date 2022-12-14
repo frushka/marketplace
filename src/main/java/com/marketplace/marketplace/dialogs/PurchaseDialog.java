@@ -1,5 +1,6 @@
 package com.marketplace.marketplace.dialogs;
 
+import com.marketplace.marketplace.aplications.LoginUserAplication;
 import com.marketplace.marketplace.aplications.MarketplaceApp;
 import com.marketplace.marketplace.controllers.ControllerMarketplace;
 import com.marketplace.marketplace.models.BankCard;
@@ -20,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.marketplace.marketplace.aplications.LoginProviderAplication.currentProvider;
+import static com.marketplace.marketplace.aplications.LoginUserAplication.currentUsername;
+import static com.marketplace.marketplace.aplications.LoginUserAplication.isUser;
 import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
 
 public class PurchaseDialog {
@@ -91,12 +95,13 @@ public class PurchaseDialog {
             map.merge(product, 1, Integer::sum);
         }
 
+        String current = isUser ? currentUsername : currentProvider;
         for (String name : map.keySet()) {
-            int idx = getIdx(name);
+            int idx = getIdx(name, current);
             int count = map.get(name);
-            if (arrayProducts.get(idx).number_product >= count) {
-                int old = arrayProducts.get(idx).number_product;
-                arrayProducts.get(idx).setNumberProduct(old - count);
+            if (arrayProducts.get(current).get(idx).number_product >= count) {
+                int old = arrayProducts.get(current).get(idx).number_product;
+                arrayProducts.get(current).get(idx).setNumberProduct(old - count);
                 error_message.setText("Товар куплен!\nСпасибо за покупку, корзина очищена.");
                 index_products.setText("0");
                 arrayBasket.clear();
@@ -106,16 +111,16 @@ public class PurchaseDialog {
             }
         }
 
-        List<Product> bufList = new ArrayList<>(arrayProducts);
+        List<Product> bufList = new ArrayList<>(arrayProducts.get(current));
 
-        arrayProducts.clear();
+        arrayProducts.get(current).clear();
         arrayBasket.clear();
-        arrayProducts.addAll(bufList);
+        arrayProducts.get(current).addAll(bufList);
     }
 
-    private static int getIdx(String name) {
-        for (int i = 0; i < arrayProducts.size(); i++) {
-            if (arrayProducts.get(i).name.equals(name)) {
+    private static int getIdx(String name, String cur) {
+        for (int i = 0; i < arrayProducts.get(cur).size(); i++) {
+            if (arrayProducts.get(cur).get(i).name.equals(name)) {
                 return i;
             }
         }

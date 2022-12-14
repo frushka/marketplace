@@ -1,6 +1,5 @@
 package com.marketplace.marketplace.aplications;
 
-import com.marketplace.marketplace.models.Provider;
 import com.marketplace.marketplace.models.Session;
 import com.marketplace.marketplace.models.User;
 import javafx.fxml.FXML;
@@ -11,13 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.Objects;
-
-import static com.marketplace.marketplace.aplications.MarketplaceApp.role;
 
 public class LoginUserAplication {
 
     public static String currentUsername;
+    public static boolean isUser = false;
 
     MarketplaceApp marketplaceApp = new MarketplaceApp(); //создание Маркетплейса для пользователя
 
@@ -52,7 +49,7 @@ public class LoginUserAplication {
     public boolean isValid() {
         /* Проверка соответствия полей. Чел зарегался, а потом авторизируется и тут проверка.
         * Да и просто проверка наличия в списке*/
-        return RegisterUserAplication.validate(username.getText(), password.getText());
+        return RegisterUserAplication.validateUser(username.getText(), password.getText());
     }
     //Получение экземпляра класса
     private static final System.Logger log = System.getLogger(LoginUserAplication.class.getName());
@@ -71,6 +68,7 @@ public class LoginUserAplication {
             }
 
             currentUsername = username.getText();
+            isUser = true;
             cancel(login);
             marketplaceApp.start(new Stage());
         } else {

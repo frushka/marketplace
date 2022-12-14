@@ -2,8 +2,6 @@
 
 package com.marketplace.marketplace.aplications;
 
-import com.marketplace.marketplace.models.Provider;
-import com.marketplace.marketplace.models.Session;
 import com.marketplace.marketplace.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +63,11 @@ public class RegisterUserAplication {
 
     @FXML
     public void RegisterUser() throws IOException {
+        if (validateUser(login.getText(), password.getText())) {
+            error_message.setText("ЗАЙДИ ПРОСТО В АККАУНТ, ШИЗОИД ДОНБАССОВСКИЙ");
+            return;
+        }
+
         /* Метод сначала проверяет не равны ли поля null, потом добавляет покупателя в массив */
         if(isNotNullTextField()) {
             error_message.setText("Регистрация прошла успешно!");
@@ -92,7 +95,7 @@ public class RegisterUserAplication {
         arrayList.add(user);
     }
 
-    public static boolean validate(String login, String password) {
+    public static boolean validateUser(String login, String password) {
         // получение логина покупателя
         for (User i: arrayList) {
             if (i.getLogin().equals(login)
