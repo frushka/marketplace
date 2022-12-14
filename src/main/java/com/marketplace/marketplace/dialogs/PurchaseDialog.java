@@ -110,12 +110,12 @@ public class PurchaseDialog {
                 return;
             }
         }
+        Map<String, ObservableList<Product>> heh = new HashMap<>(arrayProducts);
 
-        List<Product> bufList = new ArrayList<>(arrayProducts.get(current));
-
-        arrayProducts.get(current).clear();
         arrayBasket.clear();
-        arrayProducts.get(current).addAll(bufList);
+        arrayProducts.clear();
+
+        arrayProducts.putAll(heh);
     }
 
     private static int getIdx(String name, String cur) {
