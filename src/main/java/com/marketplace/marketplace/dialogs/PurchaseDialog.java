@@ -25,6 +25,7 @@ import static com.marketplace.marketplace.aplications.LoginProviderAplication.cu
 import static com.marketplace.marketplace.aplications.LoginUserAplication.currentUsername;
 import static com.marketplace.marketplace.aplications.LoginUserAplication.isUser;
 import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
+import static com.marketplace.marketplace.controllers.ControllerMarketplace.all;
 
 public class PurchaseDialog {
 
@@ -96,12 +97,32 @@ public class PurchaseDialog {
         }
 
         String current = isUser ? currentUsername : currentProvider;
+        System.out.println(current);
+
         for (String name : map.keySet()) {
             int idx = getIdx(name, current);
             int count = map.get(name);
-            if (arrayProducts.get(current).get(idx).number_product >= count) {
-                int old = arrayProducts.get(current).get(idx).number_product;
-                arrayProducts.get(current).get(idx).setNumberProduct(old - count);
+            if (all.get(idx).number_product >= count) {
+                int old = all.get(idx).number_product;
+                all.get(idx).setNumberProduct(old - count);
+
+                int index = 0;
+                boolean isEnd = false;
+                for (ObservableList<Product> value : arrayProducts.values()) {
+                    if (isEnd) {
+                        break;
+                    }
+
+                    for (Product product : value) {
+                        if (idx == index) {
+                            product.setNumberProduct(old - count);
+                            isEnd = true;
+                            break;
+                        }
+                        index++;
+                    }
+                }
+
                 error_message.setText("Товар куплен!\nСпасибо за покупку, корзина очищена.");
                 index_products.setText("0");
                 arrayBasket.clear();
@@ -110,17 +131,16 @@ public class PurchaseDialog {
                 return;
             }
         }
-        Map<String, ObservableList<Product>> heh = new HashMap<>(arrayProducts);
 
+        List<Product> l = new ArrayList<>(all);
         arrayBasket.clear();
-        arrayProducts.clear();
-
-        arrayProducts.putAll(heh);
+        all.clear();
+        all.setAll(l);
     }
 
     private static int getIdx(String name, String cur) {
-        for (int i = 0; i < arrayProducts.get(cur).size(); i++) {
-            if (arrayProducts.get(cur).get(i).name.equals(name)) {
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).name.equals(name)) {
                 return i;
             }
         }

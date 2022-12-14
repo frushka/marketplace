@@ -24,6 +24,7 @@ public class ControllerMarketplace {
     public Button addProduct, purchase, deleteProductButton, sign_out; // кнопки добавки, покупки, удаления и выхода
 
     public ListView<Product> list_products;// список показа элементов маркера
+    public static ObservableList<Product> all = FXCollections.observableArrayList();// список показа элементов маркера
 
     @FXML
     public Label nameBasket = new Label();
@@ -63,18 +64,18 @@ public class ControllerMarketplace {
         //передача в список на фронт списка продуктов маркетплейса
         String current = isUser ? currentUsername : currentProvider;
 
-        if (!arrayProducts.containsKey(current)) {
-            arrayProducts.put(current, FXCollections.observableArrayList());
-        }
-
+        all.clear();
         if (current.equals(currentUsername)) {
-            ObservableList<Product> all = FXCollections.observableArrayList();
             for (ObservableList<Product> value : arrayProducts.values()) {
                 all.addAll(value);
             }
 
             list_products.setItems(all);
             return;
+        }
+
+        if (!arrayProducts.containsKey(current)) {
+            arrayProducts.put(current, FXCollections.observableArrayList());
         }
 
         list_products.setItems(arrayProducts.get(current));
