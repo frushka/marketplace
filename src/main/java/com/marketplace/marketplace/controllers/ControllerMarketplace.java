@@ -134,13 +134,10 @@ public class ControllerMarketplace {
     @FXML
     public void DeleteProductButton () {
         //кнопки удаления продукта
-        try {
-            for (Product i : list_products.getSelectionModel().getSelectedItems()) {
-                arrayProducts.remove(i);
-            }
-        } catch (NoSuchElementException noSuchElementException) {
-            return;
-        }
+        ObservableList<Product> pr = list_products.getSelectionModel().getSelectedItems();
+        ObservableList<Product> cur = arrayProducts.get(currentProvider);
+
+        cur.removeAll(pr);
     }
 
     public void SelectionItemProduct () {
