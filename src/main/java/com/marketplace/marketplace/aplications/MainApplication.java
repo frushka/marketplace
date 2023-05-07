@@ -17,10 +17,10 @@ import java.sql.Connection;
 public class MainApplication extends Application {
     @FXML
     public Button authProvider, authUser = new Button();//создание кнопок Я покупатель и Я поставщик
-    String driver = "com.mysql.cj.jdbc.Driver";
-    String url = "jdbc:mysql://localhost:3306/" + "marketplace?&serverTimezone=UTC";
-    String user = "root";
-    String password = "root";
+//    String driver = "com.mysql.cj.jdbc.Driver";
+//    String url = "jdbc:mysql://localhost:3306/" + "marketplace?&serverTimezone=UTC";
+//    String user = "root";
+//    String password = "root";
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         /*Открытие stage и создание
@@ -30,11 +30,6 @@ public class MainApplication extends Application {
         stage.setTitle("Выберете свою роль");//название сцены
         stage.setResizable(false);//Нельзя менять размер
         stage.show(); // показ сцены
-        try {
-            Connection conn = DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
     }
 
     public static void main(String[] args) {

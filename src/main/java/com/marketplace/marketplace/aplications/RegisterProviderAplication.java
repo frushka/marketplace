@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RegisterProviderAplication {
@@ -58,19 +59,31 @@ public class RegisterProviderAplication {
         providers.add(provider);
     }
 
-    public static boolean validateProvider(String login, String password) {
-        // получение логина покупателя
-        for (Provider i: providers) {
-            if (i.getLogin().equals(login)
-                    && i.getPassword().equals(password)) {
-                return true;
-            }
+    public static boolean validateProvider(String login, String password) throws SQLException {
+//        // получение логина продавца
+//        for (Provider i: providers) {
+//            if (i.getLogin().equals(login)
+//                    && i.getPassword().equals(password)) {
+//                return true;
+//            }
+//        }
+//        return false;
+        String query = """
+                SELECT *
+                FROM sellers
+                WHERE log_sel = ?
+                  AND pwd_col = ?
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, login);
+            statement.setString(2, password);
+            var result = statement.executeQuery();
+            return result.next();
         }
-        return false;
     }
 
     @FXML
-    public void RegProvider() throws IOException {
+    public void RegProvider() throws IOException, SQLException {
         if (validateProvider(username.getText(), password.getText())) {
             error_message.setText("Этот аккаунт занят!");
             return;
