@@ -42,11 +42,7 @@
       </HBox>
       <VBox alignment="CENTER" layoutY="37.0" prefHeight="463.0" prefWidth="750.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="D:\marketplace\User.jpeg" />
-               </image>
-            </ImageView>
+
             <TextField fx:id="username" alignment="CENTER" prefHeight="35.0" promptText="Логин">
                <font>
                   <Font size="15.0" />

@@ -60,11 +60,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </VBox>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="D:\marketplace\User.jpeg" />
-                     </image>
-                  </ImageView>
+
                   <VBox alignment="CENTER">
                      <children>
                         <TextField fx:id="login" alignment="CENTER" prefHeight="35.0" prefWidth="250.0" promptText="Логин">

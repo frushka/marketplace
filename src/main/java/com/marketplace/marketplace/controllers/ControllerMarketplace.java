@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -133,12 +134,14 @@ public class ControllerMarketplace {
 
     @FXML
     public void DeleteProductButton () {
+
         //кнопки удаления продукта
         ObservableList<Product> pr = list_products.getSelectionModel().getSelectedItems();
         ObservableList<Product> cur = arrayProducts.get(currentProvider);
 
         cur.removeAll(pr);
     }
+
 
     public void SelectionItemProduct () {
         //Помогает осуществлять множественный выбор на маркете
@@ -159,7 +162,11 @@ public class ControllerMarketplace {
     public void SignOut() throws IOException {
         //кнопка выхода из аккаунта
         MarketplaceApp.cancel(sign_out);
-        mainApplication.start(new Stage());
+        try {
+            mainApplication.start(new Stage());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         if (role.size() > 0) {
             MarketplaceApp.role.clear();
         }

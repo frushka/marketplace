@@ -37,6 +37,7 @@ public class MarketplaceApp {
         stage.setTitle("Маркетплейс" + getRole());
 
 
+
         /*if (arrayBasket.size() == 0) {
             controllerMarketplace.purchase.setDisable(true);
         }*/

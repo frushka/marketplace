@@ -72,7 +72,7 @@ public class RegisterProviderAplication {
     @FXML
     public void RegProvider() throws IOException {
         if (validateProvider(username.getText(), password.getText())) {
-            error_message.setText("ЗАЙДИ ПРОСТО В АККАУНТ, ШИЗОИД ДОНБАССОВСКИЙ");
+            error_message.setText("Этот аккаунт занят!");
             return;
         }
 

@@ -4,6 +4,7 @@ module com.marketplace.marketplace {
     requires javafx.graphics;
     requires javafx.base;
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
     opens com.marketplace.marketplace.models;
     opens com.marketplace.marketplace.controllers to javafx.fxml;

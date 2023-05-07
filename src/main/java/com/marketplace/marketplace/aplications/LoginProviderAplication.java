@@ -72,6 +72,7 @@ public class LoginProviderAplication {
             LoginUserAplication.isUser = false;
             marketplaceApp.start(new Stage());
         } else {
+
             message_error.setText("Учётная запись не найдена!");
         }
     }

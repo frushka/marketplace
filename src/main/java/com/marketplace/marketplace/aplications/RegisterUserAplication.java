@@ -64,7 +64,7 @@ public class RegisterUserAplication {
     @FXML
     public void RegisterUser() throws IOException {
         if (validateUser(login.getText(), password.getText())) {
-            error_message.setText("ЗАЙДИ ПРОСТО В АККАУНТ, ШИЗОИД ДОНБАССОВСКИЙ");
+            error_message.setText("Этот аккаунт занят!");
             return;
         }
 

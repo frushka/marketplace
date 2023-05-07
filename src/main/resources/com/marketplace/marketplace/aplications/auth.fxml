@@ -30,11 +30,7 @@
       </Rectangle>
       <VBox alignment="CENTER" prefHeight="500.0" prefWidth="700.0">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="D:\marketplace\marketplace.jpg" />
-               </image>
-            </ImageView>
+
             <Label prefHeight="81.0" prefWidth="188.0" text="Welcome to RM!">
                <font>
                   <Font name="Consolas Bold" size="24.0" />
