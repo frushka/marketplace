@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 import static com.marketplace.marketplace.aplications.MarketplaceApp.role;
@@ -47,7 +48,11 @@ public class LoginProviderAplication {
     public boolean isValid() {
         /* Проверка соответствия полей. Чел зарегался, а потом авторизируется и тут проверка.
          * Да и просто проверка наличия в списке*/
-        return RegisterProviderAplication.validateProvider(username.getText(), password.getText());
+        try {
+            return RegisterProviderAplication.validateProvider(username.getText(), password.getText());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void cancel(Button button) {
