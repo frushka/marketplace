@@ -1,10 +1,10 @@
 package com.marketplace.marketplace.models;
 
 public class BankCard {
-    public int number_card, pin_code,cvv;
-    public String  owners_name, owners_surname;
+    public int pin_code,cvv;
+    public String  owners_name, owners_surname, number_card;
 
-    public BankCard(int number_card, int pin_code, int cvv, String owners_name, String owners_surname) {
+    public BankCard(String number_card, int pin_code, int cvv, String owners_name, String owners_surname) {
         // конструктор
         this.number_card = number_card;
         this.pin_code = pin_code;
@@ -12,13 +12,13 @@ public class BankCard {
         this.owners_name = owners_name;
         this.owners_surname = owners_surname;
     }
-    public BankCard(int number_card, int pin_code, int cvv){
+    public BankCard(String number_card, int pin_code, int cvv){
         this.number_card=number_card;
         this.pin_code=pin_code;
         this.cvv=cvv;
     }
 
-    public int getNumberCard() {
+    public String getNumberCard() {
         return number_card;
     }
 
@@ -42,7 +42,7 @@ public class BankCard {
         this.cvv = cvv;
     }
 
-    public void setNumberCard(int number_card) {
+    public void setNumberCard(String number_card) {
         this.number_card = number_card;
     }
 

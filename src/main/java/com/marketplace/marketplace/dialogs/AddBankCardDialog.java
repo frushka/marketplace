@@ -92,7 +92,7 @@ public class AddBankCardDialog {
                     VALUES (?, ?, ?, ?)
                 """;
                 BankCard card = new BankCard(
-                        Integer.parseInt(number_card.getText()),
+                        number_card.getText(),
                         Integer.parseInt(pin_code.getText()),
                         Integer.parseInt(cvv.getText()),
                         owners_name.getText(),
@@ -102,7 +102,7 @@ public class AddBankCardDialog {
                 }
 
                 try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
-                    statement.setInt(1, card.number_card);
+                    statement.setString(1, card.number_card);
                     statement.setInt(2, card.pin_code);
                     statement.setInt(3, card.cvv);
                     statement.setString(4, currentUsername);
