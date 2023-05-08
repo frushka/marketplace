@@ -30,7 +30,7 @@ public class LoginProviderAplication {
     public Label message_error;// Штука для вывода ошибки, если пользователь не найден или данные некорректны
 
 
-    MarketplaceApp marketplaceApp = new MarketplaceApp();//создание Маркетплейса для пользователя
+    MarketplaceApp marketplaceApp = new MarketplaceApp(); //создание Маркетплейса для пользователя
 
     public LoginProviderAplication() throws IOException {
         /* Конструктор класса авторизации микрочелика под статусом покупатель*/

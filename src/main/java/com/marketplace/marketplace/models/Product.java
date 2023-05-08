@@ -1,12 +1,16 @@
 package com.marketplace.marketplace.models;
 
+import java.util.UUID;
+
 public class Product {
+    public UUID id;
     // класс продуктов
     public String name;
     public int number_product;
     public double price_product;
 
     public Product(String name, int number_product, double price_product) {
+        id = UUID.randomUUID();
         this.name = name;
         this.number_product = number_product;
         this.price_product = price_product;

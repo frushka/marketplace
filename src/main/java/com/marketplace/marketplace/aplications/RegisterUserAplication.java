@@ -12,6 +12,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RegisterUserAplication {
@@ -37,7 +38,7 @@ public class RegisterUserAplication {
     public Label error_message = new Label();// штука выводит ошибку, если чел не заполнил поля
 
 
-    public static ArrayList<User> arrayList = new ArrayList<>();//список всех покупателей
+//    public static ArrayList<User> arrayList = new ArrayList<>();//список всех покупателей
 
     public static void start(Stage stage) throws IOException {
         /*Метод загрузки и показа сцены*/
@@ -92,25 +93,46 @@ public class RegisterUserAplication {
 
     public void addUser(User user) {
         /*Добавление покупателя в список*/
-        arrayList.add(user);
+        String query = """
+                INSERT INTO customers(first_name, last_name, patronymic, log_ctms, pwd_ctms, adrs_ctms)
+                VALUES (?, ?, ?, ?, ?, ?)
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, user.name);
+            statement.setString(2, user.surname);
+            statement.setString(3, user.patronymic);
+            statement.setString(4, user.login);
+            statement.setString(5, user.password);
+            statement.setString(6, user.address);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean validateUser(String login, String password) {
-        // получение логина покупателя
-        for (User i: arrayList) {
-            if (i.getLogin().equals(login)
-             && i.getPassword().equals(password)) {
-                return true;
-            }
+//        // получение логина покупателя
+//        for (User i: arrayList) {
+//            if (i.getLogin().equals(login)
+//             && i.getPassword().equals(password)) {
+//                return true;
+//            }
+//        }
+//        return false;
+        String query = """
+                SELECT *
+                FROM customers
+                WHERE log_ctms = ?
+                  AND pwd_ctms = ?
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, login);
+            statement.setString(2, password);
+            var result = statement.executeQuery();
+            return result.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
-    public static boolean getIsAddProduct() {
-        for (User i: arrayList) {
-            return i.isAddProduct();
-        }
-
-        return false;
-    }
 }

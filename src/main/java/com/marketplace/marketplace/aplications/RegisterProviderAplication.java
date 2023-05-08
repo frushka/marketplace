@@ -26,7 +26,7 @@ public class RegisterProviderAplication {
     @FXML
     public Button register; // кнопка зарегистрироваться
 
-    static ArrayList<Provider> providers = new ArrayList<>(); // список всех продавцов
+//    static ArrayList<Provider> providers = new ArrayList<>(); // список всех продавцов
 
     public static void start(Stage stage) throws IOException {
 
@@ -56,7 +56,19 @@ public class RegisterProviderAplication {
 
     public void addProvider(Provider provider) {
         /* Метод добавления продавца в список*/
-        providers.add(provider);
+//        providers.add(provider);
+        String query = """
+                INSERT INTO sellers(log_sel, pwd_col, name_company)
+                VALUES (?, ?, ?)
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, provider.login);
+            statement.setString(2, provider.password);
+            statement.setString(3, provider.company_name);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean validateProvider(String login, String password) throws SQLException {
@@ -106,14 +118,5 @@ public class RegisterProviderAplication {
             error_message.setText("Вы не заполнили все поля ввода!");
         }
         //System.out.println(getLogin());
-    }
-
-    public static boolean getIsPurchase() {
-        /* отключение кнопки покупки*/
-        for (Provider i: providers) {
-            return i.isPurchase();
-        }
-
-        return false;
     }
 }

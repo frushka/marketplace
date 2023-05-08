@@ -94,6 +94,18 @@ public class ControllerMarketplace {
 
     public static void addProduct(Product product) {
         //Добавление элементов на маркетплейс в список
+        String query = """
+                INSERT INTO market(name_prod, quantity_prod, price_prod)
+                VALUES (?, ?, ?)
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, product.name);
+            statement.setInt(2, product.number_product);
+            statement.setDouble(3, product.price_product);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         arrayProducts.get(currentProvider).add(product);
     }
     @FXML
@@ -139,6 +151,40 @@ public class ControllerMarketplace {
         ObservableList<Product> pr = list_products.getSelectionModel().getSelectedItems();
         ObservableList<Product> cur = arrayProducts.get(currentProvider);
 
+        for (Product product : pr) {
+            String q = """
+              SELECT *
+              FROM market
+              WHERE name_pord = ?
+            """;
+            String qq = """
+                DELETE
+                FROM market
+                WHERE name_prod = ?
+            """;
+            String qqq = """
+                DELETE
+                FROM sel_wh
+                WHERE market_id = ?
+            """;
+            try (var statement = ConnectionHandler.getConnection().prepareStatement(q)) {
+                statement.setString(1, product.name);
+
+                var result = statement.executeQuery();
+                while (result.next()) {
+                    try (var st = ConnectionHandler.getConnection().prepareStatement(qq);
+                    var stt = ConnectionHandler.getConnection().prepareStatement(qqq)) {
+                        st.setString(1, product.name);
+                        stt.setInt(1, result.getInt("id_prod"));
+
+                        st.executeUpdate();
+                        stt.executeUpdate();
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         cur.removeAll(pr);
     }
 
