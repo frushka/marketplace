@@ -105,15 +105,18 @@ public class ControllerMarketplace {
         String sql = """
                 SELECT *
                 FROM market
-                WHERE name_prod =""" + product.name;
+                WHERE name_prod = ?
+        """;
         try (var statement = ConnectionHandler.getConnection().prepareStatement(query);
         var st = ConnectionHandler.getConnection().prepareStatement(q);
         var stt = ConnectionHandler.getConnection().prepareStatement(sql)) {
             statement.setString(1, product.name);
             statement.setInt(2, product.number_product);
             statement.setDouble(3, product.price_product);
+
             statement.executeUpdate();
 
+            stt.setString(1, product.name);
             var rrr = stt.executeQuery();
             while (rrr.next()) {
                 st.setInt(1, rrr.getInt("market_id_prod"));
