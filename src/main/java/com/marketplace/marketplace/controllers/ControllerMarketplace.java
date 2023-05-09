@@ -98,11 +98,27 @@ public class ControllerMarketplace {
                 INSERT INTO market(name_prod, quantity_prod, price_prod)
                 VALUES (?, ?, ?)
         """;
-        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+        String q = """
+                INSERT INTO sel_wh(market_id_prod, sellers_log_sel)
+                VALUES (?, ?)
+        """;
+        String sql = """
+                SELECT *
+                FROM market
+                WHERE name_prod =""" + product.name;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query);
+        var st = ConnectionHandler.getConnection().prepareStatement(q);
+        var stt = ConnectionHandler.getConnection().prepareStatement(sql)) {
             statement.setString(1, product.name);
             statement.setInt(2, product.number_product);
             statement.setDouble(3, product.price_product);
             statement.executeUpdate();
+
+            var rrr = stt.executeQuery();
+            while (rrr.next()) {
+                st.setInt(1, rrr.getInt("market_id_prod"));
+                st.setString(2, currentProvider);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
