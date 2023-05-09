@@ -119,7 +119,7 @@ public class ControllerMarketplace {
             stt.setString(1, product.name);
             var rrr = stt.executeQuery();
             while (rrr.next()) {
-                st.setInt(1, rrr.getInt("market_id_prod"));
+                st.setInt(1, rrr.getInt("id_prod"));
                 st.setString(2, currentProvider);
             }
         } catch (SQLException e) {
