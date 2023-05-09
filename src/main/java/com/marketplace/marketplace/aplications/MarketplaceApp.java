@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,34 @@ public class MarketplaceApp {
     public static ArrayList<String> role = new ArrayList<>();
 
     // Список товаров, которые есть на маркетплейсе
-    public static Map<String, ObservableList<Product>> arrayProducts = new HashMap<>();
+    public static Map<String, ObservableList<Product>> arrayProducts = new HashMap<>() {{
+        var connection = ConnectionHandler.getConnection();
+        String query = """
+            SELECT *
+            FROM sel_wh
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            var result = statement.executeQuery();
+            String q = """
+                    SELECT *
+                    FROM market
+                    where id_prod = ?
+                """;
+            while (result.next()) {
+                try (var st = ConnectionHandler.getConnection().prepareStatement(q)) {
+                    st.setInt(1, result.getInt("market_id"));
+                    var r = st.executeQuery();
+                    ObservableList<Product> p = FXCollections.observableArrayList();
+                    while (r.next()) {
+                        p.add(new Product(r.getString("name_prod"), r.getInt("quantity_prod"), r.getDouble("price_prod")));
+                    }
+                    put(result.getString("sellers_log_sel"), p);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }};
 
     //Загрузка сцены из FXML
     FXMLLoader fxmlLoader = new FXMLLoader(MarketplaceApp.class.getResource("marketplace.fxml"));

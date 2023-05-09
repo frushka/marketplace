@@ -22,9 +22,6 @@ import static com.marketplace.marketplace.aplications.LoginUserAplication.isUser
 import static com.marketplace.marketplace.aplications.MarketplaceApp.*;
 
 public class ControllerMarketplace {
-
-    private static int id = 0;
-
     public Button addProduct, purchase, deleteProductButton, sign_out; // кнопки добавки, покупки, удаления и выхода
 
     public ListView<Product> list_products;// список показа элементов маркера
@@ -98,14 +95,13 @@ public class ControllerMarketplace {
     public static void addProduct(Product product) {
         //Добавление элементов на маркетплейс в список
         String query = """
-                INSERT INTO market(id_prod, name_prod, quantity_prod, price_prod)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO market(name_prod, quantity_prod, price_prod)
+                VALUES (?, ?, ?)
         """;
         try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
-            statement.setInt(1, ++id);
-            statement.setString(2, product.name);
-            statement.setInt(3, product.number_product);
-            statement.setDouble(4, product.price_product);
+            statement.setString(1, product.name);
+            statement.setInt(2, product.number_product);
+            statement.setDouble(3, product.price_product);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -154,6 +150,7 @@ public class ControllerMarketplace {
         //кнопки удаления продукта
         ObservableList<Product> pr = list_products.getSelectionModel().getSelectedItems();
         ObservableList<Product> cur = arrayProducts.get(currentProvider);
+        cur.removeAll(pr);
 
         for (Product product : pr) {
             String q = """
@@ -189,7 +186,6 @@ public class ControllerMarketplace {
                 throw new RuntimeException(e);
             }
         }
-        cur.removeAll(pr);
     }
 
 
