@@ -67,54 +67,43 @@ public class AddBankCardDialog {
         /* Добавление карты в список*/
         try {
             if (isNotEmptyCardBank()) {
-                String number = number_card.getText();
-                if (number.length() != 16) {
-                    err_mes.setText("Некорректный номер карты");
-                    return;
-                }
+                System.out.println(number_card.getText().length() == 16);
+                if (number_card.getText().length() == 16) {
+                    BankCard card = new BankCard(
+                            number_card.getText(),
+                            Integer.parseInt(pin_code.getText()),
+                            Integer.parseInt(cvv.getText()),
+                            owners_name.getText(),
+                            owners_surname.getText());
+                    if (!PurchaseDialog.arrayBankCards.containsKey(currentUsername)) {
+                        PurchaseDialog.arrayBankCards.put(currentUsername, FXCollections.observableArrayList());
+                    }
+                    PurchaseDialog.arrayBankCards.get(currentUsername).add(card);
+                    cancel(cancel);
 
-                String c = cvv.getText();
-                if (c.length() != 3) {
-                    err_mes.setText("Некорректный CVV");
-                    return;
-                }
+                    String query = """
+                INSERT INTO cards(num_card, pin_code, cvv, customers_log_ctms, owner_name, owner_surname)
+                VALUES (?, ?, ?, ?, ?, ?);
+        """;
+                    try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+                        statement.setString(1, card.number_card);
+                        statement.setInt(2, card.pin_code);
+                        statement.setInt(3, card.cvv);
+                        statement.setString(4, currentUsername);
+                        statement.setString(5, card.owners_name);
+                        statement.setString(6, card.owners_surname);
 
-                String ownerName = owners_name.getText();
-                String ownerSurname = owners_surname.getText();
-
-                if (ownerName.matches("[a-zA-Z]{1,} .+") || ownerSurname.matches("[a-zA-Z]{1,} .+")) {
-                    err_mes.setText("Некорректные данные пользователя");
-                    return;
+                        statement.executeUpdate();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-
-                String query = """
-                    INSERT INTO cards(num_card, pin_code, cvv, customers_log_ctms)
-                    VALUES (?, ?, ?, ?)
-                """;
-                BankCard card = new BankCard(
-                        number_card.getText(),
-                        Integer.parseInt(pin_code.getText()),
-                        Integer.parseInt(cvv.getText()),
-                        owners_name.getText(),
-                        owners_surname.getText());
-                if (!PurchaseDialog.arrayBankCards.containsKey(currentUsername)) {
-                    PurchaseDialog.arrayBankCards.put(currentUsername, FXCollections.observableArrayList());
-                }
-
-                try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
-                    statement.setString(1, card.number_card);
-                    statement.setInt(2, card.pin_code);
-                    statement.setInt(3, card.cvv);
-                    statement.setString(4, currentUsername);
-                    statement.executeUpdate();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                PurchaseDialog.arrayBankCards.get(currentUsername).add(card);
-                cancel(cancel);
+            } else {
+                throw new NumberFormatException();
             }
         } catch (NumberFormatException numberFormatException) {
             err_mes.setText("Некорректный ввод");
+            return;
         }
     }
 

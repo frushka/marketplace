@@ -72,14 +72,6 @@ public class RegisterProviderAplication {
     }
 
     public static boolean validateProvider(String login, String password) throws SQLException {
-//        // получение логина продавца
-//        for (Provider i: providers) {
-//            if (i.getLogin().equals(login)
-//                    && i.getPassword().equals(password)) {
-//                return true;
-//            }
-//        }
-//        return false;
         String query = """
                 SELECT *
                 FROM sellers
@@ -109,11 +101,24 @@ public class RegisterProviderAplication {
 
             //MarketplaceApp.role.add(0, Session.setRole(Provider.class));
 
-            addProvider(new Provider(
+            var provider = new Provider(
                     username.getText(),
                     password.getText(),
                     name_company.getText()
-            ));
+            );
+            addProvider(provider);
+            String query = """
+                INSERT INTO sellers(log_sel, pwd_col, name_company)  
+                VALUES (?, ?, ?);
+        """;
+            try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+                statement.setString(1, provider.login);
+                statement.setString(2, provider.password);
+                statement.setString(3, provider.company_name);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             error_message.setText("Вы не заполнили все поля ввода!");
         }

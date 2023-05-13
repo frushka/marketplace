@@ -1,8 +1,9 @@
 package com.marketplace.marketplace.models;
 
 public class BankCard {
+    public String number_card;
     public int pin_code,cvv;
-    public String  owners_name, owners_surname, number_card;
+    public String  owners_name, owners_surname;
 
     public BankCard(String number_card, int pin_code, int cvv, String owners_name, String owners_surname) {
         // конструктор

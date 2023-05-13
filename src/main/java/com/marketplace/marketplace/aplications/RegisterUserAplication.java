@@ -2,7 +2,10 @@
 
 package com.marketplace.marketplace.aplications;
 
+import com.marketplace.marketplace.models.BankCard;
+import com.marketplace.marketplace.models.Product;
 import com.marketplace.marketplace.models.User;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +17,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import static com.marketplace.marketplace.aplications.MarketplaceApp.arrayBasket;
+import static com.marketplace.marketplace.dialogs.PurchaseDialog.arrayBankCards;
 
 public class RegisterUserAplication {
 
@@ -38,7 +44,7 @@ public class RegisterUserAplication {
     public Label error_message = new Label();// штука выводит ошибку, если чел не заполнил поля
 
 
-//    public static ArrayList<User> arrayList = new ArrayList<>();//список всех покупателей
+    public static ArrayList<User> arrayList = new ArrayList<>();//список всех покупателей
 
     public static void start(Stage stage) throws IOException {
         /*Метод загрузки и показа сцены*/
@@ -78,14 +84,31 @@ public class RegisterUserAplication {
 
             //MarketplaceApp.role.add(0, Session.setRole(User.class));
 
-            addUser(new User(
+            User user = new User(
                     login.getText(),
                     name.getText(),
                     surname.getText(),
                     patronymic.getText(),
                     password.getText(),
                     adress.getText()
-            ));
+            );
+            addUser(user);
+            String query = """
+                INSERT INTO customers(log_ctms, pwd_ctms, adrs_ctms, first_name, last_name, patronymic)  
+                VALUES (?, ?, ?, ?, ?, ?);
+        """;
+            try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+                statement.setString(1, user.login);
+                statement.setString(2, user.password);
+                statement.setString(3, user.address);
+                statement.setString(4, user.name);
+                statement.setString(5, user.surname);
+                statement.setString(6, user.patronymic);
+
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             error_message.setText("Вы не заполнили все поля ввода");
         }
@@ -93,46 +116,75 @@ public class RegisterUserAplication {
 
     public void addUser(User user) {
         /*Добавление покупателя в список*/
-        String query = """
-                INSERT INTO customers(first_name, last_name, patronymic, log_ctms, pwd_ctms, adrs_ctms)
-                VALUES (?, ?, ?, ?, ?, ?)
-        """;
-        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
-            statement.setString(1, user.name);
-            statement.setString(2, user.surname);
-            statement.setString(3, user.patronymic);
-            statement.setString(4, user.login);
-            statement.setString(5, user.password);
-            statement.setString(6, user.address);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        arrayList.add(user);
     }
 
     public static boolean validateUser(String login, String password) {
-//        // получение логина покупателя
-//        for (User i: arrayList) {
-//            if (i.getLogin().equals(login)
-//             && i.getPassword().equals(password)) {
-//                return true;
-//            }
-//        }
-//        return false;
         String query = """
                 SELECT *
                 FROM customers
                 WHERE log_ctms = ?
                   AND pwd_ctms = ?
         """;
-        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+        String sql = """
+            SELECT *
+            FROM cards
+            WHERE customers_log_ctms = ?
+        """;
+        String sqql = """
+            SELECT *
+            FROM shop_cart
+            WHERE customers_log_ctms = ?
+        """;
+        String sss = """
+            SELECT *
+            FROM market
+            WHERE id_prod = ?
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query);
+        var st = ConnectionHandler.getConnection().prepareStatement(sql);
+        var stt = ConnectionHandler.getConnection().prepareStatement(sqql);
+        var sttt = ConnectionHandler.getConnection().prepareStatement(sss)) {
             statement.setString(1, login);
             statement.setString(2, password);
             var result = statement.executeQuery();
-            return result.next();
+            if (result.next()) {
+                st.setString(1, login);
+                var r = st.executeQuery();
+                while (r.next()) {
+                    arrayBankCards.put(login, FXCollections.observableArrayList());
+                    arrayBankCards.get(login).add(
+                            new BankCard(
+                                    r.getString("num_card"),
+                                    r.getInt("pin_code"),
+                                    r.getInt("cvv"),
+                                    r.getString("owner_name"),
+                                    r.getString("owner_surname")
+                            )
+                    );
+                }
+                stt.setString(1, login);
+                var rr = stt.executeQuery();
+                while (rr.next()) {
+                    sttt.setInt(1, rr.getInt("market_id_prod"));
+                    var f = sttt.executeQuery();
+                    while (f.next()) {
+                        arrayBasket.add(f.getString("name_prod"));
+                    }
+                }
+                return true;
+            }
+            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public static boolean getIsAddProduct() {
+        for (User i: arrayList) {
+            return i.isAddProduct();
+        }
+
+        return false;
+    }
 }

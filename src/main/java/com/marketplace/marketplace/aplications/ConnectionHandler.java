@@ -6,9 +6,10 @@ import java.sql.SQLException;
 
 public class ConnectionHandler {
 
-    private static final String url = "jdbc:mysql://localhost:3306/" + "marketplace?&serverTimezone=UTC";
-    private static final String user = "root";
-    private static final String password = "root";
+
+    static String url = "jdbc:mysql://localhost:3306/" + "marketplace?&serverTimezone=UTC";
+    static String user = "root";
+    static String password = "root";
     private static final Connection connection;
 
     static {

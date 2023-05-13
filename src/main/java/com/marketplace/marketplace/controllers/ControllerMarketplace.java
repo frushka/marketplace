@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -90,42 +89,58 @@ public class ControllerMarketplace {
     public static void addProductBasket(String name) {
         //Добавление элементов в корзину
         arrayBasket.add(name);
-    }
-
-    public static void addProduct(Product product) {
-        //Добавление элементов на маркетплейс в список
         String query = """
-                INSERT INTO market(name_prod, quantity_prod, price_prod)
-                VALUES (?, ?, ?)
+            SELECT *
+            FROM market
+            WHERE name_prod = ?
         """;
-        String q = """
-                INSERT INTO sel_wh(market_id_prod, sellers_log_sel)
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, name);
+            var result = statement.executeQuery();
+            while (result.next()) {
+                String sql = """
+                INSERT INTO shop_cart(market_id_prod, customers_log_ctms)
                 VALUES (?, ?)
-        """;
-        String sql = """
-                SELECT *
-                FROM market
-                WHERE name_prod = ?
-        """;
-        try (var statement = ConnectionHandler.getConnection().prepareStatement(query);
-        var st = ConnectionHandler.getConnection().prepareStatement(q);
-        var stt = ConnectionHandler.getConnection().prepareStatement(sql)) {
-            statement.setString(1, product.name);
-            statement.setInt(2, product.number_product);
-            statement.setDouble(3, product.price_product);
-
-            statement.executeUpdate();
-
-            stt.setString(1, product.name);
-            var rrr = stt.executeQuery();
-            while (rrr.next()) {
-                st.setInt(1, rrr.getInt("id_prod"));
-                st.setString(2, currentProvider);
+                """;
+                try (var s = ConnectionHandler.getConnection().prepareStatement(sql)) {
+                    s.setInt(1, result.getInt("id_prod"));
+                    s.setString(2, currentUsername);
+                    s.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void addProduct(Product product) {
+        //Добавление элементов на маркетплейс в список
         arrayProducts.get(currentProvider).add(product);
+        String query = """
+                INSERT INTO market(name_prod, quantity_prod, price_prod)
+                VALUES (?, ?, ?)
+                RETURNING id_prod;
+        """;
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+            statement.setString(1, product.name);
+            statement.setInt(2, product.number_product);
+            statement.setDouble(3, product.price_product);
+
+            var result = statement.executeQuery();
+            while (result.next()) {
+                String sql = """
+                INSERT INTO sel_wh(market_id_prod, sellers_log_sel) 
+                VALUES (?, ?)
+                """;
+                try (var s = ConnectionHandler.getConnection().prepareStatement(sql)) {
+                    s.setInt(1, result.getInt("id_prod"));
+                    s.setString(2, currentProvider);
+                    s.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML
     public void AddProduct() throws IOException {
@@ -139,6 +154,28 @@ public class ControllerMarketplace {
         for (Product i : list_products.getSelectionModel().getSelectedItems()) {
             if (i.getNumberProduct() > 0) {
                 arrayBasket.add(i.getName());
+                String query = """
+                    SELECT *
+                    FROM market
+                    WHERE name_prod = ?
+                """;
+                try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+                    statement.setString(1, i.getName());
+                    var result = statement.executeQuery();
+                    while (result.next()) {
+                        String sql = """
+                            DELETE
+                            FROM shop_cart
+                            WHERE market_id_prod = ?
+                         """;
+                        try (var s = ConnectionHandler.getConnection().prepareStatement(sql)) {
+                            s.setInt(1, result.getInt("id_prod"));
+                            s.executeUpdate();
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
        // index_product.setText(String.valueOf(arrayBasket.size()));
@@ -150,6 +187,7 @@ public class ControllerMarketplace {
         try {
             for (String i : basket.getSelectionModel().getSelectedItems()) {
                 arrayBasket.remove(i);
+
             }
             //index_product.setText(String.valueOf(arrayBasket.size()));
         } catch (NoSuchElementException noSuchElementException) {
@@ -169,42 +207,22 @@ public class ControllerMarketplace {
         //кнопки удаления продукта
         ObservableList<Product> pr = list_products.getSelectionModel().getSelectedItems();
         ObservableList<Product> cur = arrayProducts.get(currentProvider);
-        cur.removeAll(pr);
 
         for (Product product : pr) {
-            String q = """
-              SELECT *
-              FROM market
-              WHERE name_pord = ?
-            """;
-            String qq = """
+            String query = """
                 DELETE
                 FROM market
                 WHERE name_prod = ?
             """;
-            String qqq = """
-                DELETE
-                FROM sel_wh
-                WHERE market_id = ?
-            """;
-            try (var statement = ConnectionHandler.getConnection().prepareStatement(q)) {
+            try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
                 statement.setString(1, product.name);
-
-                var result = statement.executeQuery();
-                while (result.next()) {
-                    try (var st = ConnectionHandler.getConnection().prepareStatement(qq);
-                    var stt = ConnectionHandler.getConnection().prepareStatement(qqq)) {
-                        st.setString(1, product.name);
-                        stt.setInt(1, result.getInt("id_prod"));
-
-                        st.executeUpdate();
-                        stt.executeUpdate();
-                    }
-                }
+                statement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+
+        cur.removeAll(pr);
     }
 
 
