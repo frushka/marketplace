@@ -138,8 +138,22 @@ public class PurchaseDialog {
                     }
                 }
 
+                String s = """
+                             DELETE
+                             FROM shop_cart
+                             WHERE customers_log_ctms = ?
+                        """;
+                try (var statement = ConnectionHandler.getConnection().prepareStatement(s)) {
+                    statement.setString(1, currentUsername);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 error_message.setText("Товар куплен!\nСпасибо за покупку, корзина очищена.");
                 index_products.setText("0");
+
+
+
                 arrayBasket.clear();
             } else {
                 error_message.setText("Товаров в корзине больше, чем товаров на складе.");
