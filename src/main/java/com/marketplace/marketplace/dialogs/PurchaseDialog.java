@@ -1,5 +1,6 @@
 package com.marketplace.marketplace.dialogs;
 
+import com.marketplace.marketplace.aplications.ConnectionHandler;
 import com.marketplace.marketplace.aplications.LoginUserAplication;
 import com.marketplace.marketplace.aplications.MarketplaceApp;
 import com.marketplace.marketplace.controllers.ControllerMarketplace;
@@ -16,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,6 +122,19 @@ public class PurchaseDialog {
                             break;
                         }
                         index++;
+                        String sql = """
+                             UPDATE market
+                             SET quantity_prod = ?
+                             WHERE name_prod = ?
+                        """;
+                        try (var statement = ConnectionHandler.getConnection().prepareStatement(sql)) {
+                            statement.setInt(1, old - count);
+                            statement.setString(2, product.name);
+
+                            statement.executeUpdate();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
 
