@@ -118,8 +118,8 @@ public class ControllerMarketplace {
         arrayProducts.get(currentProvider).add(product);
         String query = """
                 INSERT INTO market(name_prod, quantity_prod, price_prod)
-                VALUES (?, ?, ?)
-                RETURNING id_prod;
+                VALUES (?, ?, ?);
+                SELECT LAST_INSERT_ID();
         """;
         try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
             statement.setString(1, product.name);
