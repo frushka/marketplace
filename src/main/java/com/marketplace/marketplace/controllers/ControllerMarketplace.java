@@ -121,7 +121,7 @@ public class ControllerMarketplace {
                 VALUES (?, ?, ?)
         """;
         String sq = """
-                SELECT LAST_INSERT_ID();
+                SELECT LAST_INSERT_ID() as id_prod;
         """;
         try (var statement = ConnectionHandler.getConnection().prepareStatement(query);
         var st = ConnectionHandler.getConnection().prepareStatement(sq)) {
@@ -160,21 +160,21 @@ public class ControllerMarketplace {
             if (i.getNumberProduct() > 0) {
                 arrayBasket.add(i.getName());
                 String query = """
-                    SELECT *
-                    FROM market
-                    WHERE name_prod = ?
-                """;
+            SELECT *
+            FROM market
+            WHERE name_prod = ?
+        """;
                 try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
                     statement.setString(1, i.getName());
                     var result = statement.executeQuery();
                     while (result.next()) {
                         String sql = """
-                            DELETE
-                            FROM shop_cart
-                            WHERE market_id_prod = ?
-                         """;
+                INSERT INTO shop_cart(market_id_prod, customers_log_ctms)
+                VALUES (?, ?)
+                """;
                         try (var s = ConnectionHandler.getConnection().prepareStatement(sql)) {
                             s.setInt(1, result.getInt("id_prod"));
+                            s.setString(2, currentUsername);
                             s.executeUpdate();
                         }
                     }
@@ -192,7 +192,28 @@ public class ControllerMarketplace {
         try {
             for (String i : basket.getSelectionModel().getSelectedItems()) {
                 arrayBasket.remove(i);
-
+                String query = """
+                    SELECT *
+                    FROM market
+                    WHERE name_prod = ?
+                """;
+                try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+                    statement.setString(1, i);
+                    var result = statement.executeQuery();
+                    while (result.next()) {
+                        String sql = """
+                            DELETE
+                            FROM shop_cart
+                            WHERE market_id_prod = ?
+                         """;
+                        try (var s = ConnectionHandler.getConnection().prepareStatement(sql)) {
+                            s.setInt(1, result.getInt("id_prod"));
+                            s.executeUpdate();
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
             //index_product.setText(String.valueOf(arrayBasket.size()));
         } catch (NoSuchElementException noSuchElementException) {
