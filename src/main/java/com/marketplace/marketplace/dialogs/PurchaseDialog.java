@@ -117,24 +117,24 @@ public class PurchaseDialog {
 
                     for (Product product : value) {
                         if (idx == index) {
+                            String sql = """
+                             UPDATE market
+                             SET quantity_prod = ?
+                             WHERE name_prod = ?
+                        """;
+                            try (var statement = ConnectionHandler.getConnection().prepareStatement(sql)) {
+                                statement.setInt(1, old - count);
+                                statement.setString(2, product.name);
+
+                                statement.executeUpdate();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
                             product.setNumberProduct(old - count);
                             isEnd = true;
                             break;
                         }
                         index++;
-                        String sql = """
-                             UPDATE market
-                             SET quantity_prod = ?
-                             WHERE name_prod = ?
-                        """;
-                        try (var statement = ConnectionHandler.getConnection().prepareStatement(sql)) {
-                            statement.setInt(1, old - count);
-                            statement.setString(2, product.name);
-
-                            statement.executeUpdate();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
                     }
                 }
 
