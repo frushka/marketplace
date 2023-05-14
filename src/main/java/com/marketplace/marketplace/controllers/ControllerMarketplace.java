@@ -118,18 +118,23 @@ public class ControllerMarketplace {
         arrayProducts.get(currentProvider).add(product);
         String query = """
                 INSERT INTO market(name_prod, quantity_prod, price_prod)
-                VALUES (?, ?, ?);
+                VALUES (?, ?, ?)
+        """;
+        String sq = """
                 SELECT LAST_INSERT_ID();
         """;
-        try (var statement = ConnectionHandler.getConnection().prepareStatement(query)) {
+        try (var statement = ConnectionHandler.getConnection().prepareStatement(query);
+        var st = ConnectionHandler.getConnection().prepareStatement(sq)) {
             statement.setString(1, product.name);
             statement.setInt(2, product.number_product);
             statement.setDouble(3, product.price_product);
 
-            var result = statement.executeQuery();
+            statement.executeUpdate();
+
+            var result = st.executeQuery();
             while (result.next()) {
                 String sql = """
-                INSERT INTO sel_wh(market_id_prod, sellers_log_sel) 
+                INSERT INTO sel_wh(market_id_prod, sellers_log_sel)
                 VALUES (?, ?)
                 """;
                 try (var s = ConnectionHandler.getConnection().prepareStatement(sql)) {
